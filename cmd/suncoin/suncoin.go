@@ -218,7 +218,7 @@ func (c *Config) register() {
 	flag.DurationVar(&c.OutgoingConnectionsRate, "connection-rate", c.OutgoingConnectionsRate, "How often to make an outgoing connection")
 	flag.BoolVar(&c.LocalhostOnly, "localhost-only", c.LocalhostOnly, "Run on localhost and only connect to localhost peers")
 	flag.BoolVar(&c.Arbitrating, "arbitrating", c.Arbitrating, "Run node in arbitrating mode")
-	flag.BoolVar(&c.Logtogui, "logtogui", true, "log to gui")
+	flag.BoolVar(&c.Logtogui, "logtogui", false, "log to gui")
 	flag.IntVar(&c.LogBuffSize, "logbufsize", c.LogBuffSize, "Log size saved in memeory for gui show")
 }
 
