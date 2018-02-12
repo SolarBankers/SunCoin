@@ -24,6 +24,9 @@ var (
 
 	// ErrInsufficientBalance is returned if a wallet does not have enough balance for a spend
 	ErrInsufficientBalance = errors.New("balance is not sufficient")
+
+	// ErrSpendingUnconfirmed is returned if caller attempts to spend unconfirmed outputs
+	ErrSpendingUnconfirmed = errors.New("please spend after your pending transaction is confirmed")
 )
 
 // CoinType represents the wallet coin type
@@ -369,7 +372,7 @@ func (w *Wallet) CreateAndSignTransaction(vld Validator, unspent blockdb.Unspent
 	}
 
 	if ok {
-		return nil, errors.New("please spend after your pending transaction is confirmed")
+		return nil, ErrSpendingUnconfirmed
 	}
 
 	txn := coin.Transaction{}
@@ -378,7 +381,11 @@ func (w *Wallet) CreateAndSignTransaction(vld Validator, unspent blockdb.Unspent
 	// Determine which unspents to spend.
 	// Use the MaximizeUxOuts strategy, this will keep the uxout pool smaller
 	uxa := auxs.Flatten()
-	uxb := NewUxBalances(headTime, uxa)
+	uxb, err := NewUxBalances(headTime, uxa)
+	if err != nil {
+		return nil, err
+	}
+
 	spends, err := ChooseSpendsMaximizeUxOuts(uxb, coins)
 	if err != nil {
 		return nil, err
@@ -496,21 +503,26 @@ type UxBalance struct {
 
 // NewUxBalances converts coin.UxArray to []UxBalance.
 // headTime is required to calculate coin hours.
-func NewUxBalances(headTime uint64, uxa coin.UxArray) []UxBalance {
+func NewUxBalances(headTime uint64, uxa coin.UxArray) ([]UxBalance, error) {
 	uxb := make([]UxBalance, len(uxa))
 	for i, ux := range uxa {
+		hours, err := ux.CoinHours(headTime)
+		if err != nil {
+			return nil, err
+		}
+
 		b := UxBalance{
 			Hash:    ux.Hash(),
 			BkSeq:   ux.Head.BkSeq,
 			Address: ux.Body.Address,
 			Coins:   ux.Body.Coins,
-			Hours:   ux.CoinHours(headTime),
+			Hours:   hours,
 		}
 
 		uxb[i] = b
 	}
 
-	return uxb
+	return uxb, nil
 }
 
 // ChooseSpendsMinimizeUxOuts chooses uxout spends to satisfy an amount, using the least number of uxouts
