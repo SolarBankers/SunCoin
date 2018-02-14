@@ -49,8 +49,6 @@ var (
 	// ErrDisconnectOtherError this is returned when a seemingly impossible error is encountered
 	// e.g. net.Conn.Addr() returns an invalid ip:port
 	ErrDisconnectOtherError gnet.DisconnectReason = errors.New("Incomprehensible error")
-	// ErrDisConnectWrongPort invalid peer, which has wrong node port number
-	ErrDisconnectWrongPort gnet.DisconnectReason = errors.New("Wrong node port")
 
 	logger = logging.MustGetLogger("daemon")
 )
