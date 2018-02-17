@@ -176,6 +176,8 @@ type Config struct {
 	DownloadPeerList bool
 	// Download peers list from this URL
 	PeerListURL string
+	// Port node port
+	Port int
 }
 
 // NewConfig creates default pex config.
