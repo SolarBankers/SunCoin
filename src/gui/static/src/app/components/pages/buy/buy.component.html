@@ -13,7 +13,7 @@
             <select formControlName="wallet" id="wallet" class="-wallet" required>
               <option disabled selected>Make a choice</option>
               <option *ngFor="let wallet of wallets" [value]="wallet.filename">
-                {{ wallet.label }} - <span class="-coins">{{ wallet.coins }} SKY</span>
+                {{ wallet.label }} - <span class="-coins">{{ wallet.coins }} SUN</span>
               </option>
             </select>
           </div>
@@ -31,13 +31,13 @@
           <h3>Send Bitcoin</h3>
           <p>
             Send Bitcoin to the address below. Once received, we will deposit the Skycoin to a new address in the wallet
-            selected above at the current rate of <span>{{ config.sky_btc_exchange_rate }} SKY/BTC</span>.
+            selected above at the current rate of <span>{{ config.sky_btc_exchange_rate }} SUN/BTC</span>.
           </p>
           <span class="-address">
           {{ order.deposit_address }}
           </span>
           <span class="-subtitle">
-          Only send multiple of the SKY/BTC rate! Skycoin is sent in whole number; fractional SKY is not sent!
+          Only send multiple of the SUN/BTC rate! Skycoin is sent in whole number; fractional SUN is not sent!
         </span>
         </div>
       </div>
@@ -49,7 +49,7 @@
           <h3>Receive Sky</h3>
           <p>
             After receiving your Bitcoin, we'll send you your Skycoin. It may take anywhere between 20 minutes and an hour
-            to receive your SKY.
+            to receive your SUN.
           </p>
           <span class="-status">
             Status: {{ order.status | tellerStatus }}

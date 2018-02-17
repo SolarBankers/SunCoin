@@ -20,7 +20,7 @@ import (
 	"github.com/skycoin/skycoin/src/wallet"
 )
 
-const configuredHost = "127.0.0.1:6420"
+const configuredHost = "127.0.0.1:7620"
 
 func TestWalletSpendHandler(t *testing.T) {
 	type httpBody struct {
