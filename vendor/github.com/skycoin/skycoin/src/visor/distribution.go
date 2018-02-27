@@ -12,7 +12,7 @@ const (
 	DistributionAddressInitialBalance uint64 = MaxCoinSupply / DistributionAddressesTotal
 
 	// Initial number of unlocked addresses
-	InitialUnlockedCount uint64 = 100
+	InitialUnlockedCount uint64 = 99
 
 	// Number of addresses to unlock per unlock time interval
 	UnlockAddressRate uint64 = 5
@@ -22,10 +22,6 @@ const (
 	// UnlockAddressRate addresses will be unlocked per UnlockTimeInterval
 	UnlockTimeInterval uint64 = 60 * 60 * 24 * 365 // 1 year
 )
-
-var temporaryLockedAddresses = []string{
-	"KZULDtdtgSqhUzvVJLBhscFaXGHdVHZ9TU",
-}
 
 func init() {
 	if MaxCoinSupply%DistributionAddressesTotal != 0 {
@@ -72,8 +68,6 @@ func GetLockedDistributionAddresses() []string {
 	for i := range distributionAddresses[InitialUnlockedCount:] {
 		addrs[i] = distributionAddresses[InitialUnlockedCount+uint64(i)]
 	}
-
-	addrs = append(addrs, temporaryLockedAddresses[:]...)
 
 	return addrs
 }
