@@ -176,7 +176,7 @@ type Config struct {
 	DownloadPeerList bool
 	// Download peers list from this URL
 	PeerListURL string
-	// Local node port
+	// Port node port
 	Port int
 }
 
@@ -327,23 +327,6 @@ func (px *Pex) load() error {
 	for addr, p := range peers {
 		if _, err := validateAddress(addr, px.Config.AllowLocalhost); err != nil {
 			logger.Error("Invalid peer address: %v", err)
-			continue
-		}
-
-		ss := strings.Split(addr, ":")
-		if len(ss) != 2 {
-			logger.Info("Invalid peer: %v, must in format of ip:port", addr)
-			continue
-		}
-
-		port, err := strconv.Atoi(ss[1])
-		if err != nil {
-			logger.Info("Invalid peer: %v, %v", addr, err)
-			continue
-		}
-
-		if port != px.Config.Port {
-			logger.Info("Invalid peer: %v with wrong port: %v", addr, port)
 			continue
 		}
 

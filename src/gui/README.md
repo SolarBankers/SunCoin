@@ -7,6 +7,10 @@ Wallet apis service port is `7620`.
 ```bash
 URI: /wallet/newSeed
 Method: GET
+Args:
+    entropy: seed entropy [optional]
+             can either be 128 or 256; 128 = 12 word seed, 256 = 24 word seed
+             default: 128
 ```
 
 example:
@@ -81,7 +85,9 @@ result:
 
 ```json
 {
-    "address": "TDdQmMgbEVTwLe8EAiH2AoRc4SjoEFKrHB"
+    "addresses": [
+        "TDdQmMgbEVTwLe8EAiH2AoRc4SjoEFKrHB"
+    ]
 }
 ```
 

@@ -28,7 +28,7 @@ Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app 
 
 Please note that you will most likely receive CORS errors as there's a difference between the port number of the source and destination.
 
-As a work-around, the development server will create a proxy from `http://localhost:4200/api` to `http://127.0.0.1:7620/`.
+As a work-around, the development server will create a proxy from `http://localhost:4200/api` to `http://127.0.0.1:6420/`.
 
 You can route all calls to this address by changing the url property on the ApiService class.
 
@@ -39,3 +39,7 @@ Please note that at the moment the Purchase API (teller) is both offline and not
 While event.skycoin.net is not working, we will have to run the purchase API locally.
 
 Similar as the solution for the above CORS issue, you can circumvent CORS issues by changing the url property to '/teller/'
+
+## Style guide
+
+As an Angular application, we try to follow the [Angular style guide](https://angular.io/guide/styleguide).
