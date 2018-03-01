@@ -6,11 +6,11 @@ import (
 	"fmt"
 	"math/rand"
 	"net"
-	"strconv"
 	"strings"
 
 	"github.com/skycoin/skycoin/src/daemon/gnet"
 	"github.com/skycoin/skycoin/src/daemon/pex"
+	"github.com/skycoin/skycoin/src/util/iputil"
 	"github.com/skycoin/skycoin/src/util/utc"
 )
 
@@ -102,7 +102,7 @@ type IPAddr struct {
 // returned
 func NewIPAddr(addr string) (ipaddr IPAddr, err error) {
 	// TODO -- support ipv6
-	ips, port, err := SplitAddr(addr)
+	ips, port, err := iputil.SplitAddr(addr)
 	if err != nil {
 		return
 	}
@@ -218,29 +218,7 @@ func (gpm *GivePeersMessage) Process(d *Daemon) {
 	peers := gpm.GetPeers()
 	logger.Debug("Got these peers via PEX: %s", strings.Join(peers, ", "))
 
-	var ps []string
-	// checks if the peer has right port number
-	for _, p := range peers {
-		ss := strings.Split(p, ":")
-		if len(ss) != 2 {
-			logger.Info("Invalid peer: %v, should in format of ip:port", p)
-			continue
-		}
-
-		port, err := strconv.Atoi(ss[1])
-		if err != nil {
-			logger.Info("Invalid peer: %v, %v", p, err)
-			continue
-		}
-
-		if port != d.Config.Port {
-			logger.Info("Invalid peer: %v, wrong port number", p)
-			continue
-		}
-		ps = append(ps, p)
-	}
-
-	d.Pex.AddPeers(ps)
+	d.Pex.AddPeers(peers)
 }
 
 // IntroductionMessage jan IntroductionMessage is sent on first connect by both parties
@@ -292,16 +270,9 @@ func (intro *IntroductionMessage) Handle(mc *gnet.MessageContext, daemon interfa
 
 		logger.Info("%s verified for version %d", mc.Addr, intro.Version)
 
-		// Disconnect if wrong port
-		if int(intro.Port) != d.Config.Port {
-			logger.Error("%s has wrong node port:%d. Disconnection.", mc.Addr, intro.Port)
-			d.Pool.Pool.Disconnect(mc.Addr, ErrDisconnectWrongPort)
-			return ErrDisconnectWrongPort
-		}
-
 		// only solicited connection can be added to exchange peer list, cause accepted
 		// connection may not have incomming  port.
-		ip, port, err := SplitAddr(mc.Addr)
+		ip, port, err := iputil.SplitAddr(mc.Addr)
 		if err != nil {
 			// This should never happen, but the program should still work if it
 			// does.
