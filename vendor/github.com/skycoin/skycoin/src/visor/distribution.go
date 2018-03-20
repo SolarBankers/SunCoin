@@ -12,7 +12,7 @@ const (
 	DistributionAddressInitialBalance uint64 = MaxCoinSupply / DistributionAddressesTotal
 
 	// Initial number of unlocked addresses
-	InitialUnlockedCount uint64 = 100
+	InitialUnlockedCount uint64 = 1
 
 	// Number of addresses to unlock per unlock time interval
 	UnlockAddressRate uint64 = 5
@@ -20,12 +20,10 @@ const (
 	// Unlock time interval, measured in seconds
 	// Once the InitialUnlockedCount is exhausted,
 	// UnlockAddressRate addresses will be unlocked per UnlockTimeInterval
-	UnlockTimeInterval uint64 = 60 * 60 * 24 * 365 // 1 year
+	UnlockTimeInterval uint64 = 2 * 60 * 60 * 24 * 365 // 2 years
 )
 
-var temporaryLockedAddresses = []string{
-	"KZULDtdtgSqhUzvVJLBhscFaXGHdVHZ9TU",
-}
+
 
 func init() {
 	if MaxCoinSupply%DistributionAddressesTotal != 0 {
@@ -73,7 +71,7 @@ func GetLockedDistributionAddresses() []string {
 		addrs[i] = distributionAddresses[InitialUnlockedCount+uint64(i)]
 	}
 
-	addrs = append(addrs, temporaryLockedAddresses[:]...)
+	
 
 	return addrs
 }
@@ -97,56 +95,7 @@ func TransactionIsLocked(inUxs coin.UxArray) bool {
 }
 
 var distributionAddresses = [DistributionAddressesTotal]string{
-	"2JEc8JFzN2TGFy3wqeoe6eru3vwgq45sVSR",
-	"2TvPvWdA4zvaqpcwTfPLkgHGQtDAzdqQCb7",
-	"79xKvR3NQ7h4KD4vNt2PBLDtoKFDk1gG43",
-	"27CnhwPzuZV6zVh5Pe6JmM8HeFu35z3Jw8K",
-	"2M3pKMyx4NvfUFbWVvkT9Yv1STknFbL6VJp",
-	"agGeGte7zwoCKbQPQkd8L5dTKL49uLHYua",
-	"2GfRVqmmui6nddJkjjkjQ2fMbJFsWxezNV6",
-	"2Xvd17c6tVoJRfQ4npZWGjcz1LYrsqdYGXx",
-	"2Wgk1ghWPpD8NhZQi1ALbEKt8aNX9Np3Vim",
-	"2RDA7WebLA6unbyezKSNUoQvMDZZZWdQuzH",
-	"JSTLJ4FNxVwuhJdhBEvTVkwFWnqAhaDzic",
-	"2bcCTbYxByGXNAYNfSAVA759qsCXD15XApt",
-	"2UjMumrXD4r9CZKxPdBJwU4VHsVtMDB4Lv3",
-	"jRDhoRhcpmRHjgcF6Emn7Yuj3mHRGzm262",
-	"25T8PTJyLf6K4QisCZnv9J2EGLaramLt7fR",
-	"TN5nFx6j5xoHj1jL5YZykaqeQ9UXKxyNC7",
-	"rXLbAYaGehJwzja7Gqkc3NHBi9hUmrAFDR",
-	"2S2Bfa4kvfauj2vWhhfbNRKwNLx5euxUBz5",
-	"5C1nVed6c9zqfSWDoHu7fmsEyUVXpyX8Cy",
-	"ZQ9QZRU1jGWRrXjGZWLdsZuqsQDa8BWWKo",
-	"YQtJPhqx6sAAQY6ePnsV1FzJm3vM9HC9Tz",
-	"2scTNQnfyZaDHPAhJxqMufYNa6pzzgmFJB",
-	"B9Whv9d9TGYC7AHi9QJnANa1f2dY3Jny1r",
-	"2EnSJzmbNdKNW8BBHavyTkVtyt6Y7j25ETd",
-	"MdDzJg7RGqffo87XpmEVvFGPHAnpr9YmeS",
-	"6Pc7ibaQ4CHQLH4HygrgRY9dMcGtRVoqSs",
-	"2ZHRzCmZvdQV5R1Fi2c2STAo82VkHqgmvuc",
-	"2Xay2CH2usdPYRDwoqQusMPxDEAuS76aAm2",
-	"dtEeRybvCVVLeXqbmi4tzzzD5AMYFeeH9A",
-	"2SpbEq7LzbEFvZFAFqR7fXBH9aibD2B6iQM",
-	"CE5aNvp4qcBeHgaSyF5rFh9k6MamdyfHna",
-	"2cEnxLn6h2ojHGC5TRS2BSSy7fgfFodi8dA",
-	"WnW3cnehTBAsVDZ7nY8sNb2NM6NQabMPpe",
-	"2hFKt4uBBpaT2Qt4QDuWi3cX3rAqQKKwtba",
-	"6PxJUUfxZCGhMNueFCsPhGeCNHyXmCmPsd",
-	"2atTZmiLmu8oxabcHUYFvQ9KcxMSAtxSKnu",
-	"CRjdXLQb4CFbXxcEw2ER42Z95EJamjHkeB",
-	"21TaWiWTCZBnC5Mhr8FFGkcg37jdjS12GPc",
-	"27sZ4KJbJtbhgiBgtzsNknRc7H7h8YwDNq5",
-	"w4MD35w8PTeexgQvbDPMpMf1UhZUVGkdhD",
-	"A6FFCRPe7BvgE8oy7o5dhnuSVfSo8vtnkB",
-	"2UawChW9sj9EEaVyimore9sbov3fRzif66k",
-	"8Eb9dhfj6aTJf6os4M7zmaH1Gy95fmufUD",
-	"2GW2zRVkxUkyGGxb4jXvA3TJVX13eS4AjTU",
-	"FfsRWPhMRoSMmRFcmMb1knQiAC8RZDRNnA",
-	"i5fkXenkrwfBhQUpMLYExJt4T8HYm5Swor",
-	"2Q2FJJKULZHjbYdP8Nx5C4cBpoX8nw2gh4a",
-	"2PWe6GiM3oKExhXsPHSbwnf3A5fffMKPEE7",
-	"nP3BsoFkpbQgYHtp8onsQTFh32VkFQWibB",
-	"w2xGLPgGgyTkSVnRgXhyiGpugxCFyMAFpc",
+	"2EvQ2MwPeqXqaHs9qRFzWAoByz4ph64jSKU",
 	"2BR9QGdm5hMxRkr4C5M21DXjWvxB26WjHeX",
 	"Nnw5SgEKuUmsHGWBSzashbf5D98AUouXUh",
 	"YVj3NEsacjsM67iPfyMY59vPuecwnp6QWz",
@@ -192,9 +141,58 @@ var distributionAddresses = [DistributionAddressesTotal]string{
 	"zhixmLqy3fYcRUAMZZZuABtwVnxwfXriV3",
 	"9n5yUAhSwbGZMMhC7KFNCjZnqC918tnjoY",
 	"2m6PiUioXSQKAQCqVj7T5fzrVMAi5DX8tU5",
-	"2EvQ2MwPeqXqaHs9qRFzWAoByz4ph64jSKU",
-	"KR6sPjZvE2KfpAEpmMCdqAvCrtASpNADHK",
-	"rk973tk7wCJsRU9ExFHBKuPgvLeehjjRMy",
-	"PLUcUcFNSnK2rXoP2Fd5ugqGCMzn1ksfM1",
-	"KZULDtdtgSqhUzvVJLBhscFaXGHdVHZ9TU",
+	"2Dspnm7nyGZhtTB5z8imUoQGfgo1SS6EwpC",
+	"JHcV8bshqMKatNsBGLqrGWrzH7SDJepcS1",
+	"2DDHTwwtBssBeGmoJS9XsVBXnDiwk5HC3tb",
+	"2cAg1FEdMnPZH87xUcRtAoppFdRYwQ4YtcC",
+	"LPbrt9qoyj8FCGF2dfBb699xyzg5kCc4Q4",
+	"QkHTDahAxUh4UDZpTeU2CGkdBrC5QUcPQu",
+	"23XWhmcbvDta6CSFC1gh2hiSUbxHjEtKuum",
+	"2ceiFAce8qiFo4f6Lnwo7C3UKSUbgmxULPJ",
+	"2Ve4PB7skoMyvVZNfnCd5CXkgoocM7i9kHp",
+	"CXTjHi3RrUVu6rf3yNiJXbuCeMreSKA1ko",
+	"2VyZQNNtdqn8XZzuUsWHzhJyjvzScoPM1sX",
+	"2UZsufCFj8njZjXEXUiqeLSf2W5TYc8EfF5",
+	"Dnsmrt8PcecpTr6nL8aA4ojmTu48ASU29b",
+	"2JGbfKLTkuBqp4qdbnf6ozMwk1UjmEUNS6P",
+	"23yiZLFkJpfbgYouDW7xV5ts8VnrLfveGD8",
+	"giW9AvmytkeVxu8SPa8twnosu3Rk6rY5b6",
+	"21b7EtTzmKaK1axChQDA3JmXpqCJKXbJ9z7",
+	"2DYKHug2b52ekqe7Fk3FT3rt5Y72A8vELwk",
+	"2BTttXwBVcBv5GvzGiW9V2aBwTfmkoT1DeP",
+	"KDNQ85saCEzsAdwZTZqmarcc38MyDJxNbt",
+	"23ZepZd1z21F5UiQTAq4y93XCrxRb558PGs",
+	"2HKxSby8dchYjfHnMLkjGZCELDhqDs9jGJS",
+	"LC3E2iur5MjbN9L6WhxTYW6ApiMU6hCygs",
+	"2kg2qEKjhzdpPrGbV7Sp96muaC8VuJmdTRU",
+	"237xfxqmsCnRoxRt51YyLe2iNgkXFUfbZB9",
+	"2scTNQnfyZaDHPAhJxqMufYNa6pzzgmFJB",
+	"B9Whv9d9TGYC7AHi9QJnANa1f2dY3Jny1r",
+	"2EnSJzmbNdKNW8BBHavyTkVtyt6Y7j25ETd",
+	"MdDzJg7RGqffo87XpmEVvFGPHAnpr9YmeS",
+	"6Pc7ibaQ4CHQLH4HygrgRY9dMcGtRVoqSs",
+	"2ZHRzCmZvdQV5R1Fi2c2STAo82VkHqgmvuc",
+	"2Xay2CH2usdPYRDwoqQusMPxDEAuS76aAm2",
+	"dtEeRybvCVVLeXqbmi4tzzzD5AMYFeeH9A",
+	"2SpbEq7LzbEFvZFAFqR7fXBH9aibD2B6iQM",
+	"CE5aNvp4qcBeHgaSyF5rFh9k6MamdyfHna",
+	"2cEnxLn6h2ojHGC5TRS2BSSy7fgfFodi8dA",
+	"WnW3cnehTBAsVDZ7nY8sNb2NM6NQabMPpe",
+	"2hFKt4uBBpaT2Qt4QDuWi3cX3rAqQKKwtba",
+	"6PxJUUfxZCGhMNueFCsPhGeCNHyXmCmPsd",
+	"2atTZmiLmu8oxabcHUYFvQ9KcxMSAtxSKnu",
+	"CRjdXLQb4CFbXxcEw2ER42Z95EJamjHkeB",
+	"21TaWiWTCZBnC5Mhr8FFGkcg37jdjS12GPc",
+	"27sZ4KJbJtbhgiBgtzsNknRc7H7h8YwDNq5",
+	"w4MD35w8PTeexgQvbDPMpMf1UhZUVGkdhD",
+	"A6FFCRPe7BvgE8oy7o5dhnuSVfSo8vtnkB",
+	"2UawChW9sj9EEaVyimore9sbov3fRzif66k",
+	"8Eb9dhfj6aTJf6os4M7zmaH1Gy95fmufUD",
+	"2GW2zRVkxUkyGGxb4jXvA3TJVX13eS4AjTU",
+	"FfsRWPhMRoSMmRFcmMb1knQiAC8RZDRNnA",
+	"i5fkXenkrwfBhQUpMLYExJt4T8HYm5Swor",
+	"2Q2FJJKULZHjbYdP8Nx5C4cBpoX8nw2gh4a",
+	"2PWe6GiM3oKExhXsPHSbwnf3A5fffMKPEE7",
+	"nP3BsoFkpbQgYHtp8onsQTFh32VkFQWibB",
+	"w2xGLPgGgyTkSVnRgXhyiGpugxCFyMAFpc",
 }
